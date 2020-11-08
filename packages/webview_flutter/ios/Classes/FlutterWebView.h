@@ -12,13 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithFrame:(CGRect)frame
                viewIdentifier:(int64_t)viewId
                     arguments:(id _Nullable)args
-                    registrar:(NSObject<FlutterPluginRegistrar>*)registrar;
+              binaryMessenger:(NSObject<FlutterBinaryMessenger>*)messenger;
 
 - (UIView*)view;
 @end
 
 @interface FLTWebViewFactory : NSObject <FlutterPlatformViewFactory>
-- (instancetype)initWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar;
+- (instancetype)initWithMessenger:(NSObject<FlutterBinaryMessenger>*)messenger;
 @end
 
 /**
