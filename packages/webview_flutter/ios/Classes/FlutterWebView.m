@@ -92,13 +92,22 @@
 
     WKWebViewConfiguration* configuration = [[WKWebViewConfiguration alloc] init];
     configuration.userContentController = userContentController;
+      // 为了离线访问index文件
+      configuration.suppressesIncrementalRendering = true; // 是否支持记忆读取
+      [configuration.preferences setValue:@YES forKey:@"loadsImagesAutomatically"];
+      [configuration.preferences setValue:@YES forKey:@"allowFileAccessFromFileURLs"];
+       if (@available(iOS 10.0, *)) {
+            [configuration setValue:@YES forKey:@"allowUniversalAccessFromFileURLs"];
+       }
+      
     [self updateAutoMediaPlaybackPolicy:args[@"autoMediaPlaybackPolicy"]
                         inConfiguration:configuration];
-
+    
     _webView = [[FLTWKWebView alloc] initWithFrame:frame configuration:configuration];
     _navigationDelegate = [[FLTWKNavigationDelegate alloc] initWithChannel:_channel];
     _webView.UIDelegate = self;
     _webView.navigationDelegate = _navigationDelegate;
+      
     __weak __typeof__(self) weakSelf = self;
     [_channel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
       [weakSelf onMethodCall:call result:result];
